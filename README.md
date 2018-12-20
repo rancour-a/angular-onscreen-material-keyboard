@@ -1,7 +1,5 @@
-[![Build Status](https://travis-ci.org/ngx-material-keyboard/core.svg?branch=master)](https://travis-ci.org/ngx-material-keyboard/core)
-
-# ngx-material-keyboard
-Onscreen virtual keyboard for [Angular] using [Angular Material].
+# ngx7-material-keyboard
+Onscreen virtual keyboard for [Angular] using [Angular Material]. This is a fork of the ngx-material-keyboard which supports Angular 7 and higher.
 > Please note that the project is at a very early stage. Therefore one should refrain from productive usage.
 
 ![ngx-material-keyboard in action](https://cdn.rawgit.com/ngx-material-keyboard/core/develop/screenshots/ngxmk-2.gif)
@@ -14,7 +12,7 @@ Generated documentation can be found [here][docs].
 
 ## Getting started
 1. Install with your prefered packet manager (we're using `npm` here):
-`npm install --save @ngx-material-keyboard/core`
+`npm install --save @ngx7-material-keyboard/core`
 > Be sure to fulfill the peer dependencies of this module, in particular [Angular] and [Angular Material].
 
 2. Add the module to your project, e.g. `app.module.ts`:
@@ -25,7 +23,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 ...
-import { MatKeyboardModule } from '@ngx-material-keyboard/core';
+import { MatKeyboardModule } from '@ngx7-material-keyboard/core';
 
 @NgModule({
   imports: [
@@ -105,9 +103,9 @@ The application uses [semver][SemVer] and is developed with the [git flow branch
 
 [demo]: https://ngx-material-keyboard.github.io/demo/
 [docs]: https://ngx-material-keyboard.github.io/core/
+[docs]: https://ngx-material-keyboard.github.io/core/
 
 [docs:MatKeyboardDirective]: https://ngx-material-keyboard.github.io/core/directives/MatKeyboardDirective.html
 [InjectionToken]: https://angular.io/guide/dependency-injection-in-action#injectiontoken
 [VKI Readme]: https://goo.gl/fCDExr
 [VKI Credits]: https://goo.gl/NYqTwc
-
