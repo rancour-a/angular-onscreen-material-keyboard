@@ -23,7 +23,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 ...
-import { MatKeyboardModule } from '@ngx7-material-keyboard/core';
+import { MatKeyboardModule } from 'ngx7-material-keyboard';
 
 @NgModule({
   imports: [
@@ -59,7 +59,7 @@ All layouts are based on (or directly inherited from) the [angular-virtual-keybo
 
 But basicly you just provide the configuration of your new layout in your `AppModule`:
 ```:typescript
-import { IKeyboardLayouts, keyboardLayouts, MAT_KEYBOARD_LAYOUTS, MatKeyboardModule } from '@ngx-material-keyboard/core';
+import { IKeyboardLayouts, keyboardLayouts, MAT_KEYBOARD_LAYOUTS, MatKeyboardModule } from 'ngx7-material-keyboard';
 
 const customLayouts: IKeyboardLayouts = {
   ...keyboardLayouts,

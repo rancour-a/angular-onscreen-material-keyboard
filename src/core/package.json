@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/package.schema.json",
-  "name": "@ngx7-material-keyboard/core",
+  "name": "ngx7-material-keyboard",
   "version": "0.1.2",
   "description": "Modified version of the ngx-material-keyboard onscreen virtual keyboard (https://github.com/ngx-material-keyboard/core) to support Angular ≥ 7 (https://angular.io/) using Material 7 (https://material.angular.io/)",
   "repository": {
