@@ -50,7 +50,7 @@
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "^1.7.0",
     "karma-webpack": "^5.0.0",
-    "node": "^17.7.1",
+    "node": "^14.19.0",
     "reset-css": "^5.0.1",
     "rxjs": "^6.6.7",
     "tslib": "^2.3.1",
