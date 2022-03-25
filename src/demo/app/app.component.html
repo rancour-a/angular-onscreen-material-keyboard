@@ -80,7 +80,7 @@
       <section class="row">
         <div class="col">
           <mat-form-field>
-            <input matInput matKeyboard [darkTheme] = true [active] = false [anchor] = "'top'" placeholder="From detected locale ({{ locale }})" name="sushi" [(ngModel)]="testModelValue"
+            <input matInput matKeyboard [darkTheme] = true [active] = true [anchor] = "'top'" placeholder="From detected locale ({{ locale }})" name="sushi" [(ngModel)]="testModelValue"
               (enterClick)="submitForm(form)">
             <mat-hint>Using <code>ngModel</code> two way binding</mat-hint>
           </mat-form-field>
