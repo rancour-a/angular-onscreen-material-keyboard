@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Optional, Output, Self } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, Inject, Input, LOCALE_ID, OnDestroy, Optional, Output, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 import { MatKeyboardRef } from '../classes/keyboard-ref.class';
@@ -13,6 +13,10 @@ export class MatKeyboardDirective implements OnDestroy {
   private _keyboardRef: MatKeyboardRef<MatKeyboardComponent>;
 
   @Input() matKeyboard: string;
+
+  @Input() active: boolean = true;
+
+  @Input() anchor: string = 'bottom';
 
   @Input() darkTheme: boolean;
 
@@ -30,6 +34,7 @@ export class MatKeyboardDirective implements OnDestroy {
 
   constructor(private _elementRef: ElementRef,
               private _keyboardService: MatKeyboardService,
+              @Inject(LOCALE_ID) private _defaultLocale: string,
               @Optional() @Self() private _control?: NgControl) {}
 
   ngOnDestroy() {
@@ -38,11 +43,16 @@ export class MatKeyboardDirective implements OnDestroy {
 
   @HostListener('focus', ['$event'])
   public showKeyboard() {
+
+    if (!this.active) {
+      return;
+    }
+
     this._keyboardRef = this._keyboardService.open(this.matKeyboard, {
       darkTheme: this.darkTheme,
       duration: this.duration,
       isDebug: this.isDebug
-    });
+    }, this.anchor);
 
     // reference the input element
     this._keyboardRef.instance.setInputInstance(this._elementRef);

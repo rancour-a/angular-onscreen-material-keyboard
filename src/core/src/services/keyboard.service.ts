@@ -1,5 +1,5 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { FlexibleConnectedPositionStrategy, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ComponentRef, Inject, Injectable, LOCALE_ID, Optional, SkipSelf } from '@angular/core';
 
@@ -27,6 +27,9 @@ export class MatKeyboardService {
 
   private _availableLocales: ILocaleMap = {};
 
+  /** Reference to the anchor element. */
+  private _anchor: string;
+
   /** Reference to the currently opened keyboard at *any* level. */
   private get _openedKeyboardRef(): MatKeyboardRef<MatKeyboardComponent> | null {
     const parent = this._parentKeyboard;
@@ -50,10 +53,10 @@ export class MatKeyboardService {
   }
 
   constructor(private _overlay: Overlay,
-              private _live: LiveAnnouncer,
-              @Inject(LOCALE_ID) private _defaultLocale: string,
-              @Inject(MAT_KEYBOARD_LAYOUTS) private _layouts: IKeyboardLayouts,
-              @Optional() @SkipSelf() private _parentKeyboard: MatKeyboardService) {
+    private _live: LiveAnnouncer,
+    @Inject(LOCALE_ID) private _defaultLocale: string,
+    @Inject(MAT_KEYBOARD_LAYOUTS) private _layouts: IKeyboardLayouts,
+    @Optional() @SkipSelf() private _parentKeyboard: MatKeyboardService) {
     // prepare available layouts mapping
     this._availableLocales = _applyAvailableLayouts(_layouts);
   }
@@ -131,8 +134,10 @@ export class MatKeyboardService {
    * @param layoutOrLocale A string representing the locale or the layout name to be used.
    * @param config Additional configuration options for the keyboard.
    */
-  open(layoutOrLocale: string = this._defaultLocale, config: MatKeyboardConfig = {}): MatKeyboardRef<MatKeyboardComponent> {
+  open(layoutOrLocale: string = this._defaultLocale, config: MatKeyboardConfig = {}, anchor: string = 'bottom'): MatKeyboardRef<MatKeyboardComponent> {
     const _config = _applyConfigDefaults(config);
+
+    this._anchor = anchor;
 
     return this.openFromComponent(layoutOrLocale, _config);
   }
@@ -196,6 +201,7 @@ export class MatKeyboardService {
    */
   private _attachKeyboardContent(config: MatKeyboardConfig): MatKeyboardRef<MatKeyboardComponent> {
     const overlayRef = this._createOverlay();
+    // this.realignToAnchor(overlayRef);
     const container = this._attachKeyboardContainer(overlayRef, config);
     const portal = new ComponentPortal(MatKeyboardComponent);
     const contentRef = container.attachComponentPortal(portal);
@@ -210,12 +216,60 @@ export class MatKeyboardService {
       width: '100%'
     });
 
-    state.positionStrategy = this._overlay
-      .position()
-      .global()
-      .centerHorizontally()
-      .bottom('0');
+    // const popoverConfig: PopoverConfig = {
+    //   horizontalAlign: this._popover.horizontalAlign,
+    //   verticalAlign: this._popover.verticalAlign,
+    //   hasBackdrop: this._popover.hasBackdrop,
+    //   backdropClass: this._popover.backdropClass,
+    //   scrollStrategy: this._popover.scrollStrategy,
+    //   forceAlignment: this._popover.forceAlignment,
+    //   lockAlignment: this._popover.lockAlignment,
+    //   panelClass: this._popover.panelClass
+    // };
+
+    // const overlayConfig = this._getOverlayConfig(popoverConfig, this._anchor);
+
+    // this._getPositionStrategy(
+    //   config.horizontalAlign,
+    //   config.verticalAlign,
+    //   config.forceAlignment,
+    //   config.lockAlignment,
+    //   anchor
+    // )
+
+    // const strategy = state.positionStrategy as FlexibleConnectedPositionStrategy;
+    // strategy.setOrigin(this._anchor);
+
+    // let overlayRef:OverlayRef  = this._overlay.create(state);
+    // overlayRef.updatePosition();
+
+    if (this._anchor === 'bottom') {
+      state.positionStrategy = this._overlay
+        .position()
+        .global()
+        .centerHorizontally()
+        .bottom('0');
+      // .top('0');
+    } else {
+      state.positionStrategy = this._overlay
+        .position()
+        .global()
+        .centerHorizontally()
+        // .bottom('0');
+        .top('0');
+    }
+
 
     return this._overlay.create(state);
   }
+
+  /** Realign the popover to the anchor. */
+  realignToAnchor(overlayRef: OverlayRef): void {
+    if (overlayRef) {
+      const config = overlayRef.getConfig();
+      const strategy = config.positionStrategy as FlexibleConnectedPositionStrategy;
+      strategy.reapplyLastPosition();
+    }
+  }
+
 }
